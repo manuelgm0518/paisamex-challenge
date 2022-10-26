@@ -9,6 +9,7 @@ import { EnvironmentVariables } from './constants';
 import { HttpExceptionFilter } from './filters';
 import { DatabaseService, EnvironmentService } from './services';
 import { AuthenticationModule } from '@authentication/authentication.module';
+import { ExchangeRatesModule } from '@exchange-rates/exchange-rates.module';
 
 @Global()
 @Module({
@@ -44,7 +45,8 @@ import { AuthenticationModule } from '@authentication/authentication.module';
       useClass: DatabaseService,
     }),
     AuthenticationModule,
+    ExchangeRatesModule,
   ],
-  exports: [EnvironmentService, AuthenticationModule],
+  exports: [EnvironmentService, AuthenticationModule, ExchangeRatesModule],
 })
 export class CoreModule {}

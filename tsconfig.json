@@ -24,9 +24,11 @@
 
       // Integrations
       "@authentication/*": ["src/integrations/authentication/*"],
+      "@exchange-rates/*": ["src/integrations/exchange-rates/*"],
 
       // Modules
-      "@users/*": ["src/modules/users/*"]
+      "@users/*": ["src/modules/users/*"],
+      "@remittances/*": ["src/modules/remittances/*"]
     }
   }
 }

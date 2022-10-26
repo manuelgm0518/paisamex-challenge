@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, IsInt, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsInt, IsString, IsUrl } from 'class-validator';
 
 export enum Environment {
   DEVELOPMENT = 'development',
@@ -30,4 +30,10 @@ export class EnvironmentVariables {
   DATABASE_PASSWORD: string;
   @IsInt()
   DATABASE_PORT: number;
+
+  // EXCHANGE RATES API
+  @IsUrl()
+  EXCHANGE_RATES_API_URL: string;
+  @IsString()
+  EXCHANGE_RATES_API_KEY: string;
 }

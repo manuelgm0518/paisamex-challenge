@@ -1,3 +1,4 @@
+import { AuthRole, AUTH_ROLE_VALUES } from '@authentication/constants';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length } from 'class-validator';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
@@ -14,4 +15,8 @@ export class Role {
   @Index({ unique: true })
   @Column({ length: 32 })
   name: string;
+
+  get authRole(): AuthRole {
+    return AUTH_ROLE_VALUES.find((e) => e == this.name);
+  }
 }
