@@ -1,8 +1,8 @@
 {
   "name": "paisamex-challenge",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Remittances service made with NestJS + MySQL implementing JWT authentication",
+  "author": "Manuel González Martínez",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

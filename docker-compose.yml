@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  paisamex-mysql:
+  mysql-db:
     image: mysql
     container_name: paisamex-db
     environment:

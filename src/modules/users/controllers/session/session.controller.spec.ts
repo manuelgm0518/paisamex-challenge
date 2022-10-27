@@ -1,6 +1,7 @@
 import { CoreModule } from '@core/core.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RemittancesModule } from '@remittances/remittances.module';
 import { User } from '@users/entities';
 import { SessionService } from '@users/services';
 import { SessionController } from './session.controller';
@@ -10,7 +11,7 @@ describe('SessionController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [CoreModule, TypeOrmModule.forFeature([User])],
+      imports: [CoreModule, RemittancesModule, TypeOrmModule.forFeature([User])],
       controllers: [SessionController],
       providers: [SessionService],
     }).compile();
