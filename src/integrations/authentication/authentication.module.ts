@@ -21,6 +21,6 @@ import { JwtAuthStrategy, LocalAuthStrategy } from './strategies';
     TypeOrmModule.forFeature([Authentication, Role]),
   ],
   providers: [AuthenticationService, LocalAuthStrategy, JwtAuthStrategy],
-  exports: [AuthenticationService],
+  exports: [AuthenticationService, TypeOrmModule],
 })
 export class AuthenticationModule {}

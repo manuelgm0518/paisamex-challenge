@@ -32,6 +32,8 @@ export class RemittancesService {
     if (sender.id === dto.receiver) throw new BadRequestException('The Receiver can not be the same as the Sender');
     const receiver = await this.usersService.findOne({ where: { id: dto.receiver } });
     if (!receiver) throw new NotFoundException('The Receiver user does not exist');
+    if (receiver.fullName.toLowerCase() === 'jhon sean' || receiver.fullName.toLowerCase() === 'pedro perez')
+      throw new BadRequestException('You can not send a remittance to this user');
     const destinationAmount = await this.exchangeRatesService.convert(
       dto.originAmount,
       dto.originCurrency,

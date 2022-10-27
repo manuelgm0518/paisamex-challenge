@@ -3,7 +3,7 @@ import { IsEnum, IsNumber, IsInt, IsString, IsUrl } from 'class-validator';
 export enum Environment {
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
-  TESTING = 'testing',
+  TEST = 'test',
 }
 
 export class EnvironmentVariables {

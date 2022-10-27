@@ -36,15 +36,15 @@ export class User {
 
   @ApiProperty({ type: () => Remittance, isArray: true })
   @OneToMany(() => Remittance, (remittance) => remittance.sender)
-  sentRemittances: Remittance[];
+  sentRemittances?: Remittance[];
 
   @ApiProperty({ type: () => Remittance, isArray: true })
   @OneToMany(() => Remittance, (remittance) => remittance.receiver)
-  receivedRemittances: Remittance[];
+  receivedRemittances?: Remittance[];
 
   @ApiProperty({ type: () => RemittanceMovement, isArray: true })
   @OneToMany(() => RemittanceMovement, (movement) => movement.updatedBy)
-  movements: RemittanceMovement[];
+  movements?: RemittanceMovement[];
 
   get fullName(): string {
     return `${this.firstName} ${this.lastName}`;

@@ -1,3 +1,4 @@
+require('module-alias/register');
 import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -5,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { EnvironmentService } from '@core/services';
 import { AppModule } from './app.module';
 import { AuthenticationService } from '@authentication/services';
+import { SessionService } from '@users/services';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,6 +31,8 @@ async function bootstrap() {
   console.log(`Server ready at ${await app.getUrl()}`);
 
   const authService = app.get(AuthenticationService);
+  const sessionService = app.get(SessionService);
   authService.syncAuthRoles();
+  sessionService.testAdmin();
 }
 bootstrap();

@@ -36,6 +36,7 @@
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "module-alias": "^2.2.2",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
@@ -85,7 +86,24 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "testTimeout": 20000,
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@core(.*)$": "<rootDir>/core/$1",
+      "@shared(.*)$": "<rootDir>/shared/$1",
+      "@authentication(.*)$": "<rootDir>/integrations/authentication/$1",
+      "@exchange-rates(.*)$": "<rootDir>/integrations/exchange-rates/$1",
+      "@users(.*)$": "<rootDir>/modules/users/$1",
+      "@remittances(.*)$": "<rootDir>/modules/remittances/$1"
+    }
+  },
+  "_moduleAliases": {
+    "@core": "src/core",
+    "@shared": "src/shared",
+    "@authentication": "src/integrations/authentication",
+    "@exchange-rates": "src/integrations/exchange-rates",
+    "@users": "src/modules/users",
+    "@remittances": "src/modules/remittances"
   }
 }

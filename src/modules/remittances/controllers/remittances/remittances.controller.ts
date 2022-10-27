@@ -1,4 +1,4 @@
-import { Body, Controller, Param } from '@nestjs/common';
+import { Body, Controller, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { ApiGet, ApiPatch, ApiPost } from '@shared/decorators';
@@ -57,13 +57,19 @@ export class RemittancesController {
     responseType: Remittance,
   })
   @ApiParam({ name: 'id', type: Number })
-  async findById(@Param('id') id: number, @CurrentAuth() currentUser: User): Promise<IHttpResponse<Remittance>> {
-    const data = await this.remittancesService.findOne({
-      where: [
-        { id, sender: { id: currentUser.id } },
-        { id, receiver: { id: currentUser.id } },
-      ],
-    });
+  async findById(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentAuth() currentUser: User,
+  ): Promise<IHttpResponse<Remittance>> {
+    let data: Remittance;
+    if (currentUser.roles.includes(AuthRole.ADMIN)) data = await this.remittancesService.findOne({ where: { id } });
+    else
+      data = await this.remittancesService.findOne({
+        where: [
+          { id, sender: { id: currentUser.id } },
+          { id, receiver: { id: currentUser.id } },
+        ],
+      });
     return { data };
   }
 
@@ -78,7 +84,10 @@ export class RemittancesController {
     responseType: [RemittanceMovement],
   })
   @ApiParam({ name: 'id', type: Number })
-  async movementsById(@Param('id') id: number, @CurrentAuth() currentUser: User): Promise<IHttpResponse<Remittance>> {
+  async movementsById(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentAuth() currentUser: User,
+  ): Promise<IHttpResponse<Remittance>> {
     const data = await this.remittancesService.findOne({
       relations: ['movements'],
       where: [
@@ -99,7 +108,10 @@ export class RemittancesController {
     responseType: Remittance,
   })
   @ApiParam({ name: 'id', type: Number })
-  async cancel(@Param('id') id: number, @CurrentAuth() currentUser: User): Promise<IHttpResponse<RemittanceMovement>> {
+  async cancel(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentAuth() currentUser: User,
+  ): Promise<IHttpResponse<RemittanceMovement>> {
     const data = await this.remittancesService.updateById(id, {
       updatedBy: currentUser,
       updatedStatus: RemittanceStatus.CANCELED,
@@ -109,15 +121,18 @@ export class RemittancesController {
 
   @ApiPatch({
     path: API_ENDPOINTS.REMITTANCES.REJECT,
-    roles: ALL_ROLES,
+    roles: [AuthRole.REGULAR],
     summary: 'Rejects a pending `Remittance` by Id',
     description:
-      'Updates a `Remittance` record that matches the Id. If you are not an Admin user, the receiver of the `Remittance` must be the current logged in user',
+      'Updates a `Remittance` record that matches the Id. The receiver of the `Remittance` must be the current logged in user',
     responseDescription: 'A model containing the updated information of the matched `Remittance`',
     responseType: Remittance,
   })
   @ApiParam({ name: 'id', type: Number })
-  async reject(@Param('id') id: number, @CurrentAuth() currentUser: User): Promise<IHttpResponse<RemittanceMovement>> {
+  async reject(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentAuth() currentUser: User,
+  ): Promise<IHttpResponse<RemittanceMovement>> {
     const data = await this.remittancesService.updateById(id, {
       updatedBy: currentUser,
       updatedStatus: RemittanceStatus.REJECTED,
@@ -127,16 +142,16 @@ export class RemittancesController {
 
   @ApiPatch({
     path: API_ENDPOINTS.REMITTANCES.WITHDRAW,
-    roles: ALL_ROLES,
+    roles: [AuthRole.REGULAR],
     summary: 'Withdraw a pending `Remittance` by Id',
     description:
-      'Updates a `Remittance` record that matches the Id. If you are not an Admin user, the receiver of the `Remittance` must be the current logged in user',
+      'Updates a `Remittance` record that matches the Id. The receiver of the `Remittance` must be the current logged in user',
     responseDescription: 'A model containing the updated information of the matched `Remittance`',
     responseType: Remittance,
   })
   @ApiParam({ name: 'id', type: Number })
   async withdraw(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @CurrentAuth() currentUser: User,
   ): Promise<IHttpResponse<RemittanceMovement>> {
     const data = await this.remittancesService.updateById(id, {

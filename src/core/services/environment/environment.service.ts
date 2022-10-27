@@ -12,7 +12,7 @@ export class EnvironmentService {
   }
 
   get isTesting(): boolean {
-    return this.get('NODE_ENV') === Environment.TESTING;
+    return this.get('NODE_ENV') === Environment.TEST;
   }
 
   get isProduction(): boolean {
